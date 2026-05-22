@@ -1,0 +1,89 @@
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.mypy_cache/
+.pyre/
+.ruff_cache/
+.tox/
+.nox/
+.coverage
+.coverage.*
+htmlcov/
+
+# Python packaging/build output
+build/
+dist/
+downloads/
+eggs/
+.eggs/
+*.egg-info/
+*.egg
+pip-wheel-metadata/
+wheels/
+
+# Virtual environments and local interpreter config
+.venv/
+venv/
+env/
+ENV/
+.python-version
+
+# Jupyter
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
+
+# Azure ML and experiment artifacts
+.azure/
+.azureml/
+aml_config/
+outputs/
+logs/
+runs/
+artifacts/
+mlruns/
+mlartifacts/
+models/
+*.pkl
+*.pickle
+*.joblib
+
+# Local datasets and generated data
+data/raw/
+data/interim/
+data/processed/
+data/external/
+*.parquet
+*.feather
+*.h5
+*.hdf5
+*.npy
+*.npz
+
+# Environment files and secrets
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.pfx
+*.cer
+*.crt
+
+# OS and editor noise
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+tmp/
+temp/
