@@ -41,6 +41,27 @@ Fields that can benefit from this repo include `Physics`, `Machine Learning`, `D
 | `notebooks/` | Interactive notebooks for exploration, prototyping, and walkthroughs. |
 | `src/` | Core source code for training and supporting project logic. |
 
+## 🤖 Research Agents
+
+Project Helix includes a suite of AI agents designed to support each stage of the research lifecycle. See [.github/agents/README.md](.github/agents/README.md) for full agent definitions and role descriptions.
+
+| Agent | What it does |
+| --- | --- |
+| [Research Planner](.github/agents/research-planner.md) | Convert broad research ideas into a practical, testable execution plan. |
+| [Literature Mapper](.github/agents/literature-mapper.md) | Map prior work quickly and identify what is known, uncertain, or conflicting. |
+| [Data Readiness](.github/agents/data-readiness.md) | Assess whether a dataset is fit for analysis or model training. |
+| [Experiment Designer](.github/agents/experiment-designer.md) | Design statistically credible experiments and comparisons. |
+| [Project Operations](.github/agents/project-operations.md) | Keep research execution organized, visible, and on schedule. |
+| [Ethics and Risk](.github/agents/ethics-risk.md) | Identify ethical, legal, and societal risks early and continuously. |
+| [Compute Orchestrator](.github/agents/compute-orchestrator.md) | Route workloads to the right compute target and manage execution lifecycle. |
+| [Results Interpreter](.github/agents/results-interpreter.md) | Turn raw outputs into defensible conclusions. |
+| [Visualization](.github/agents/visualization.md) | Produce clear, publication-ready figures and tables. |
+| [Writing Copilot](.github/agents/writing-copilot.md) | Convert validated findings into clear scientific narrative. |
+| [Citation and Claim Verifier](.github/agents/citation-claim-verifier.md) | Ensure every substantive claim is properly supported and accurately cited. |
+| [Peer Reviewer](.github/agents/peer-reviewer.md) | Provide rigorous internal review before external sharing. |
+| [Reproducibility](.github/agents/reproducibility.md) | Guarantee experiments can be rerun and audited. |
+| [Publication and Packaging](.github/agents/publication-packaging.md) | Prepare high-quality, reusable release artifacts for external consumption. |
+
 ## Contributing
 
 Contributions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for setup, pull request, and review guidelines.
