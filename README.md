@@ -13,7 +13,7 @@
 
 Project Helix shows how researchers can boost productivity in the agentic age by combining Azure ML compute with agents, skills, and MCP-based workflows that support day-to-day research. It is tool-agnostic by design: you can use GitHub Copilot, Claude Code, Cursor, OpenCode, or other coding assistants. The project serves two audiences: Research IT teams who deploy and manage the infrastructure, and researchers who use it to run and accelerate their work.
 
-Fields that can benefit from this repo include (but not limited to) `Physics`, `Machine Learning`, `Data Science`, `Statistics`, `Bioinformatics`, `Artificial Intelligence`, `Economics`, and `Econometrics`.
+Fields that can benefit from this repo include `Physics`, `Machine Learning`, `Data Science`, `Statistics`, `Bioinformatics`, `Artificial Intelligence`, `Economics`, and `Econometrics`, but the project is not limited to these domains.
 
 ## 📦 What's in this repository
 
@@ -26,35 +26,6 @@ Fields that can benefit from this repo include (but not limited to) `Physics`, `
 | `jobs/` | Azure ML job entry points (for example sweep and training jobs). |
 | `notebooks/` | Interactive notebooks for exploration, prototyping, and walkthroughs. |
 | `src/` | Core source code for training and supporting project logic. |
-
-
-
-  /agents
-  /skills?
-
-
-Record video
-Create slide deck
-
-
-Explain how to connect MCP
-Explain how to connect compute 
-Explain how to segregate research envs
-
- neuroscience
-
-
-
-
-
-To add
-
-- Add Per target audiencve 
-  - IT 
-  - Researcher
-- Explain agents and skills 
-
-- Add explaination to connect MCP server
 
 ## License
 
