@@ -5,7 +5,7 @@
 <p align="center">
   <a href="LICENSE"><img alt="Open Source" src="https://img.shields.io/badge/Open%20Source-%E2%9D%A4-2ea44f" /></a>
   <a href="https://www.python.org/"><img alt="Python supported" src="https://img.shields.io/badge/Supported-Python-3776AB?logo=python&logoColor=white" /></a>
-  <a href="https://www.r-project.org/"><img alt="R supported" src="https://img.shields.io/badge/Supported-R-276DC3?logo=r&logoColor=white" /></a>
+  <a href="https://www.r-project.org/"><img alt="R supported soon" src="https://img.shields.io/badge/Supported%20soon-R-276DC3?logo=r&logoColor=white" /></a>
   <a href="LICENSE"><img alt="License MIT" src="https://img.shields.io/badge/License-MIT-2ea44f" /></a>
   <a href="https://github.com/nicograssetto/Project-Helix/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/nicograssetto/Project-Helix" /></a>
   <a href="https://github.com/nicograssetto/Project-Helix/codespaces"><img alt="Open in Codespaces" src="https://img.shields.io/badge/Open%20in-Codespaces-fb8c00?logo=github" /></a>
