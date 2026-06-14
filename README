@@ -1,21 +1,34 @@
-Let me get the current docs on this properly.Good — I have enough from the official reference docs to give you a thorough breakdown. Here it is organised by resource type.
+<h1 align="center">🧬 Project Helix</h1>
 
----
-# 🧬 Project Helix
-" A research template for the agentic age."
-/infra
-/hooks
-/notebooks
-/docs
-/src
-/tests
-/paper
-  main.latex
-  /figures
-  references.bib
-.README
-.LICENSE
-/.github
+<p align="center">A research template for the agentic age.</p>
+
+<p align="center">
+  <a href="LICENSE"><img alt="Open Source" src="https://img.shields.io/badge/Open%20Source-%E2%9D%A4-2ea44f" /></a>
+  <a href="https://www.python.org/"><img alt="Python supported" src="https://img.shields.io/badge/Supported-Python-3776AB?logo=python&logoColor=white" /></a>
+  <a href="https://www.r-project.org/"><img alt="R supported" src="https://img.shields.io/badge/Supported-R-276DC3?logo=r&logoColor=white" /></a>
+  <a href="LICENSE"><img alt="License MIT" src="https://img.shields.io/badge/License-MIT-2ea44f" /></a>
+  <a href="https://github.com/nicograssetto/Project-Helix/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/nicograssetto/Project-Helix" /></a>
+  <a href="https://github.com/nicograssetto/Project-Helix/codespaces"><img alt="Open in Codespaces" src="https://img.shields.io/badge/Open%20in-Codespaces-fb8c00?logo=github" /></a>
+</p>
+
+Project Helix shows how researchers can boost productivity in the agentic age by combining Azure ML compute with agents, skills, and MCP-based workflows that support day-to-day research. It is tool-agnostic by design: you can use GitHub Copilot, Claude Code, Cursor, OpenCode, or other coding assistants. The project serves two audiences: Research IT teams who deploy and manage the infrastructure, and researchers who use it to run and accelerate their work.
+
+Fields that can benefit from this repo include (but not limited to) `Physics`, `Machine Learning`, `Data Science`, `Statistics`, `Bioinformatics`, `Artificial Intelligence`, `Economics`, and `Econometrics`.
+
+## 📦 What's in this repository
+
+| Surface | What it is |
+| --- | --- |
+| `infra/` | Bicep infrastructure-as-code (`main.bicep`) to provision the Azure resources used by the project. |
+| `data/` | Data assets and dataset files used for experiments and training workflows. |
+| `dependencies/` | Environment dependency definitions (for example `requirements.txt`) for reproducible setup. |
+| `docs/` | Project documentation, notes, and architecture or workflow write-ups. |
+| `jobs/` | Azure ML job entry points (for example sweep and training jobs). |
+| `notebooks/` | Interactive notebooks for exploration, prototyping, and walkthroughs. |
+| `src/` | Core source code for training and supporting project logic. |
+
+
+
   /agents
   /skills?
 
@@ -28,175 +41,21 @@ Explain how to connect MCP
 Explain how to connect compute 
 Explain how to segregate research envs
 
-Python + R
-AI  + ML + Data Science + Statistics first approach. Physics too, ... others?
-
-- Fields, Physics, bioinformatics, neuroscience, AI, machine learning, statistics, economics, econometrics, ...
+ neuroscience
 
 
-### 1. Workspace (`Microsoft.MachineLearningServices/workspaces`)
-
-The root resource everything else hangs off.
-
-The workspace Bicep resource supports these key properties:
-
-**Identity**
-- `identity.type` — `SystemAssigned`, `UserAssigned`, or `SystemAssigned,UserAssigned`. Controls what managed identity the workspace uses to access other Azure resources.
-- `identity.userAssignedIdentities` — map of user-assigned identity resource IDs when using UserAssigned.
-
-**Core properties**
-- `location` — Azure region (e.g. `westeurope`)
-- `name` — workspace name
-- `kind` — workspace type: `Default`, `Hub`, or `Project`
-- `friendlyName` — display name shown in Studio
-- `description` — free text description
-- `tags` — key/value pairs for cost management and governance
-
-**Linked resources** (these must exist first — typically deployed in the same Bicep)
-- `storageAccount` — resource ID of the Azure Storage Account (holds datasets, outputs, logs)
-- `keyVault` — resource ID of Key Vault (secrets, encryption keys)
-- `applicationInsights` — resource ID of App Insights (job telemetry, metrics)
-- `containerRegistry` — resource ID of ACR (optional; stores custom environment Docker images)
-
-**Networking**
-- `allowPublicAccessWhenBehindVnet` — bool; whether Studio UI is reachable publicly when workspace is on a VNet
-- `publicNetworkAccess` — `Enabled` or `Disabled`; controls whether the workspace endpoint is public
-
-**Security / compliance**
-- `hbiWorkspace` — bool; marks the workspace as High Business Impact, which disables diagnostic logging and increases data encryption at rest
-- `enableDataIsolation` — bool; prevents data from leaving the workspace's region
-- `encryption.status` — `Enabled` or `Disabled`; whether customer-managed key (CMK) encryption is active
-- `encryption.keyVaultProperties.keyVaultArmId` — resource ID of the Key Vault holding the CMK
-- `encryption.keyVaultProperties.keyIdentifier` — URI of the specific key
-- `encryption.keyVaultProperties.identityClientId` — client ID of the identity used to access the key
-
----
-
-### 2. Compute cluster (`AmlCompute`)
-
-For `computeType: 'AmlCompute'`, the properties are:
-
-**Scaling**
-- `scaleSettings.minNodeCount` — minimum nodes; set to `0` to scale to zero when idle (saves cost)
-- `scaleSettings.maxNodeCount` — maximum nodes the cluster can scale to
-- `scaleSettings.nodeIdleTimeBeforeScaleDown` — ISO 8601 duration (e.g. `PT120S`); how long a node sits idle before being deallocated
-
-**VM**
-- `vmSize` — VM SKU (e.g. `Standard_DS3_v2`, `Standard_NC6s_v3` for GPU)
-- `vmPriority` — `Dedicated` or `LowPriority`; LowPriority is cheaper but can be evicted
-- `osType` — `Linux` or `Windows`
-
-**Networking**
-- `subnet.id` — resource ID of a subnet if the cluster should be VNet-injected
-- `enableNodePublicIp` — bool; whether nodes get public IPs (disable for private VNet deployments)
-- `remoteLoginPortPublicAccess` — `Enabled`, `Disabled`, or `NotSpecified`; controls SSH access to nodes
-- `isolatedNetwork` — bool; forces all traffic through the managed VNet
-
-**Authentication**
-- `userAccountCredentials.adminUserName` — SSH username for nodes
-- `userAccountCredentials.adminUserSshPublicKey` — SSH public key
-- `disableLocalAuth` — bool; forces AAD-only auth, disabling token-based local auth
-
-**Custom image**
-- `virtualMachineImage.id` — resource ID of a custom VM image to use instead of the default AzureML image
-
----
-
-### 3. Compute instance (`ComputeInstance`)
-
-Used by individual data scientists for interactive notebook work.
-
-Key properties for `computeType: 'ComputeInstance'`:
-
-- `vmSize` — VM SKU
-- `applicationSharingPolicy` — `Personal` or `Shared`; whether only the assigned user or the whole team can access apps on the instance
-- `computeInstanceAuthorizationType` — `personal` only currently
-- `personalComputeInstanceSettings.assignedUser.objectId` — AAD object ID of the user who owns this instance
-- `personalComputeInstanceSettings.assignedUser.tenantId` — AAD tenant ID
-- `enableNodePublicIp` — bool
-- `setupScripts.scripts.creationScript` — script that runs once when the instance is first created (install packages, clone repos, etc.)
-- `setupScripts.scripts.startupScript` — script that runs every time the instance starts
-- `schedules.computeStartStop` — array of start/stop schedules with cron or recurrence triggers, so instances auto-shut down overnight
-
----
-
-### 4. Datastores (`Microsoft.MachineLearningServices/workspaces/datastores`)
-
-Four storage backend types are supported, each with their own properties:
-
-**Azure Blob** (`datastoreType: 'AzureBlob'`)
-- `accountName` — storage account name
-- `containerName` — blob container name
-- `endpoint` — storage endpoint (e.g. `core.windows.net`)
-- `protocol` — `https`
-- `serviceDataAccessAuthIdentity` — `None`, `WorkspaceSystemAssignedIdentity`, or `WorkspaceUserAssignedIdentity`
-
-**Azure Data Lake Gen2** (`datastoreType: 'AzureDataLakeGen2'`)
-- `accountName`, `filesystem` (container), `endpoint`, `protocol`
-- `serviceDataAccessAuthIdentity`
-
-**Azure Data Lake Gen1** (`datastoreType: 'AzureDataLakeGen1'`)
-- `storeName` — the ADLS Gen1 store name
-- `serviceDataAccessAuthIdentity`
-
-**Azure File Share** (`datastoreType: 'AzureFile'`)
-- `accountName`, `fileShareName`, `endpoint`, `protocol`
-
-All datastore types also support `credentialsType` which can be `AccountKey`, `Sas`, `ServicePrincipal`, or `None` (use managed identity).
-
----
-
-### 5. Dependent resources (deployed alongside the workspace)
-
-These aren't ML-specific resources but are required by the workspace and typically live in the same Bicep file:
-
-**Storage Account** (`Microsoft.Storage/storageAccounts`)
-- `sku.name` — e.g. `Standard_LRS`, `Standard_GRS`
-- `kind` — `StorageV2`
-- `properties.allowBlobPublicAccess` — bool; should be `false` for ML workspaces
-- `properties.minimumTlsVersion` — `TLS1_2`
-
-**Key Vault** (`Microsoft.KeyVault/vaults`)
-- `properties.sku.name` — `standard` or `premium`
-- `properties.tenantId`
-- `properties.enableSoftDelete` — bool; required for AML
-- `properties.softDeleteRetentionInDays` — 7–90 days
-- `properties.enablePurgeProtection` — bool; required for CMK encryption
-
-**Application Insights** (`Microsoft.Insights/components`)
-- `kind` — `web`
-- `properties.Application_Type` — `web`
-
-**Container Registry** (`Microsoft.ContainerRegistry/registries`)
-- `sku.name` — `Basic`, `Standard`, or `Premium` (Premium required for VNet and geo-replication)
-- `properties.adminUserEnabled` — bool; AML needs this `false` and uses managed identity instead
-
----
-
-### Summary map
-
-```
-main.bicep
-├── Storage Account          → workspace.storageAccount
-├── Key Vault                → workspace.keyVault
-├── Application Insights     → workspace.applicationInsights
-├── Container Registry       → workspace.containerRegistry (optional)
-├── Workspace                ← root ML resource
-│   ├── Compute cluster      (AmlCompute)
-│   ├── Compute instance     (ComputeInstance)
-│   └── Datastores           (AzureBlob / ADLS / AzureFile)
-```
-
-Everything in this tree is what you'd reasonably put in Bicep — stable infrastructure that doesn't change per experiment.
 
 
-Differenbce betwee this and the accelerator for ML v2:
 
-- The Accelerator is still the go to solution for production scenario
-However, it carries a lot of scenarios (and rightkly so) while most scenarios for instance do not use SQL or Cosmos DB or Synapese (retired)
-- It also assumes that roles such as infra, data engineering, ML engineer and data scientist are separate while these days they tend to be one person's concerns.
-- It's not geared towards a starter kit to get up to speed with a project while also limiting the work required to move a PoC or small project to production ready (its basically the whole thing at once but most people would want to have a taste of this at smaller scale before committing to a full deployment)
+To add
 
-- Also ADO sucks everyone uses GH 
+- Add Per target audiencve 
+  - IT 
+  - Researcher
+- Explain agents and skills 
 
-If the accelerator is a bazooka this repo is a AK 47. deadly can be used in most situations short range, medium and long.
+- Add explaination to connect MCP server
+
+## License
+
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
