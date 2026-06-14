@@ -1,6 +1,38 @@
 Let me get the current docs on this properly.Good — I have enough from the official reference docs to give you a thorough breakdown. Here it is organised by resource type.
 
 ---
+# 🧬 Project Helix
+" A research template for the agentic age."
+/infra
+/hooks
+/notebooks
+/docs
+/src
+/tests
+/paper
+  main.latex
+  /figures
+  references.bib
+.README
+.LICENSE
+/.github
+  /agents
+  /skills?
+
+
+Record video
+Create slide deck
+
+
+Explain how to connect MCP
+Explain how to connect compute 
+Explain how to segregate research envs
+
+Python + R
+AI  + ML + Data Science + Statistics first approach. Physics too, ... others?
+
+- Fields, Physics, bioinformatics, neuroscience, AI, machine learning, statistics, economics, econometrics, ...
+
 
 ### 1. Workspace (`Microsoft.MachineLearningServices/workspaces`)
 
