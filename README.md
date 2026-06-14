@@ -41,6 +41,17 @@ Fields that can benefit from this repo include `Physics`, `Machine Learning`, `D
 | `notebooks/` | Interactive notebooks for exploration, prototyping, and walkthroughs. |
 | `src/` | Core source code for training and supporting project logic. |
 
+## Contributing
+
+Contributions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for setup, pull request, and review guidelines.
+
+## Security
+
+If you discover a security vulnerability, please report it privately via GitHub Security Advisories for this repository.
+
+- Do not open public issues for security vulnerabilities.
+- Include reproduction steps, impact, and any suggested remediation.
+
 ## License
 
 This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
