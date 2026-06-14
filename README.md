@@ -15,6 +15,20 @@ Project Helix shows how researchers can boost productivity in the agentic age by
 
 Fields that can benefit from this repo include `Physics`, `Machine Learning`, `Data Science`, `Statistics`, `Bioinformatics`, `Artificial Intelligence`, `Economics`, and `Econometrics`, but the project is not limited to these domains.
 
+## 🚀 Get started
+
+### For researchers
+
+1. Open [notebooks/getting-started.ipynb](notebooks/getting-started.ipynb) to validate your environment.
+2. Install Python dependencies from [dependencies/requirements.txt](dependencies/requirements.txt).
+3. Use [src/train.py](src/train.py) for local iteration, then scale experiments with [jobs/train_job.py](jobs/train_job.py) and [jobs/sweep_job.py](jobs/sweep_job.py).
+
+### For IT administrators
+
+1. Review and customize infrastructure in [infra/main.bicep](infra/main.bicep) and [infra/modules/resources.bicep](infra/modules/resources.bicep).
+2. Set deployment values in [infra/main.parameters.json](infra/main.parameters.json).
+3. Use [azure.yaml](azure.yaml) as the project deployment entry point and validate access, compute, and workspace settings before handing over to research teams.
+
 ## 📦 What's in this repository
 
 | Surface | What it is |
