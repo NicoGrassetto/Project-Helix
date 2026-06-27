@@ -1,0 +1,50 @@
+name: Sync agents
+
+# Whenever the source agent definitions in .github/agents change on main,
+# regenerate the tool-native folders (.claude, .opencode, .codex) and commit
+# the result straight back to the branch that was pushed.
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/agents/**"
+      - ".github/scripts/sync_agents.py"
+      - ".github/workflows/sync-agents.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-agents-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Regenerate tool-native agent folders
+        run: python .github/scripts/sync_agents.py
+
+      - name: Commit changes back to the branch
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet -- .claude .opencode .codex; then
+            echo "No agent changes to commit."
+            exit 0
+          fi
+          git add .claude .opencode .codex
+          git commit -m "chore: sync agents to .claude/.opencode/.codex [skip ci]"
+          git push origin HEAD:${GITHUB_REF_NAME}
