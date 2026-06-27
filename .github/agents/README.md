@@ -1,39 +1,32 @@
 # Agent Catalog
 
-This folder contains general-purpose agent definitions for Project Helix.
+This folder contains the agent definitions for Project Helix.
 
 ## Agent files
-- research-planner.md
-- literature-mapper.md
-- data-readiness.md
-- experiment-designer.md
-- reproducibility.md
-- compute-orchestrator.md
-- results-interpreter.md
-- visualization.md
-- writing-copilot.md
-- citation-claim-verifier.md
-- peer-reviewer.md
-- ethics-risk.md
-- project-operations.md
-- publication-packaging.md
-
-## Suggested handoff order
-1. research-planner.md
-2. data-readiness.md
-3. experiment-designer.md
-4. compute-orchestrator.md
-5. results-interpreter.md
-6. writing-copilot.md
-7. citation-claim-verifier.md
-8. peer-reviewer.md
-9. reproducibility.md
-10. publication-packaging.md
+- infrastructure-setup.md — accompanies IT teams in deploying Azure Machine Learning compute infrastructure for scientists, walking through every Bicep parameter.
 
 ## Usage notes
-- These definitions are field-agnostic by design.
-- Adapt inputs and guardrails per domain as needed.
 - Keep outputs stored in version control when possible.
+
+## Microsoft Learn MCP server
+The `infrastructure-setup` agent grounds its parameter explanations in official
+Microsoft documentation through the **Microsoft Learn MCP server**:
+
+- Endpoint: `https://learn.microsoft.com/api/mcp` (remote, streamable HTTP, no auth)
+- Tools: `microsoft_docs_search`, `microsoft_docs_fetch`, `microsoft_code_sample_search`
+
+Project-level configuration is committed for the tools that support it:
+
+- **Claude Code** -> `.mcp.json` (repo root)
+- **opencode** -> `opencode.json` (repo root)
+
+Codex reads MCP servers only from its global config. Add this to
+`~/.codex/config.toml`:
+
+```toml
+[mcp_servers.microsoft-learn]
+url = "https://learn.microsoft.com/api/mcp"
+```
 
 ## Automatic sync to other tools
 This folder is the single source of truth for agent definitions. On every push
