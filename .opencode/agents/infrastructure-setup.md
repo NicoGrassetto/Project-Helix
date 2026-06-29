@@ -35,6 +35,12 @@ Every parameter explanation, allowed value, and default in this workflow **must*
 - **Grounding rule:** before walking the user through parameters, fetch the compute Bicep reference and derive the complete parameter set from it. Cite the source URL when you explain a parameter.
 - **Failure handling:** if the MCP server is unreachable, stop and tell the user. Do not guess parameter names, allowed values, or defaults.
 
+## Azure MCP server (recommended for live operations)
+Use the Azure MCP server for anything touching the live subscription — quota checks, region/SKU availability, resource lookups, and running deployment/what-if — so the agent works against real state instead of assumptions. Pair it with the Microsoft Learn MCP: Learn for *schema and docs*, Azure for *the user's actual environment*.
+
+- **Use it to:** confirm subscription/RG/region exist, check Azure ML quota for the chosen VM family, validate naming collisions, and run `az deployment ... what-if` before apply.
+- **Failure handling:** if Azure MCP is unavailable, fall back to documented `az` CLI commands and tell the user; never invent quota numbers or resource IDs.
+
 ## Inputs to gather up front
 - Target Azure subscription, resource group, and region.
 - Whether a target Azure ML **workspace** already exists, or must be created first (compute is a child of a workspace).
@@ -43,13 +49,15 @@ Every parameter explanation, allowed value, and default in this workflow **must*
 - Governance requirements: tagging standards, naming conventions, cost controls, idle-shutdown policy.
 
 ## Workflow
+0. **Detect template state (run first).** Read the top of `infra/main.bicep`. If it begins with the `HELIX-INFRA-TEMPLATE: DEFAULT — UNMODIFIED` banner, the file is the unmodified default: do **not** deploy it as-is. Start prompting the user for every value below. The default topology is **1 workspace = 1 team** — deploy once per team (and per environment) via separate azd envs (`azd env new <team>-<env>`), each producing its own resource group + workspace. Once values are reviewed and tailored, instruct the user to remove the banner so the file is marked as customized.
 1. **Confirm prerequisites.** Verify (or plan) the parent workspace, resource group, region, and an Azure ML quota check for the chosen VM family.
 2. **Retrieve the authoritative schema** via the MCP server (`microsoft_docs_fetch` on the compute Bicep reference). Pin the API version you will generate against and state it.
 3. **Choose the compute type** with the user (`AmlCompute` for autoscaling batch/cluster compute; `ComputeInstance` for a single-user managed workstation). Explain the trade-offs in IT terms.
 4. **Walk through every parameter** (see rules below), one logical group at a time, capturing each decision.
 5. **Generate the Bicep file** with inline comments mapping each value back to the user's confirmed choice.
-6. **Provide validation and deployment steps** (`az bicep build`, `az deployment group what-if`, then `az deployment group create`), and a what-if/preview before any apply.
-7. **Summarize** with a parameter decision log and follow-up recommendations.
+6. **Provide validation and deployment steps** (`az bicep build`, `az deployment sub what-if`, then deploy), and a what-if/preview before any apply.
+7. **Verify with what-if at end of session.** Before closing, always run a what-if (`az deployment sub what-if` for subscription scope, or `az deployment group what-if`) against the generated file to confirm it compiles and the predicted changes match intent. Show the user the diff and resolve any errors or unexpected deletes before handover. Never end the session on an unvalidated file.
+8. **Summarize** with a parameter decision log and follow-up recommendations.
 
 ## Parameter walkthrough rules
 - **Prompt for every parameter the schema exposes** — required *and* optional — so the user consciously sees and confirms each value that will land in the Bicep file. Never silently accept a default.
