@@ -1,3 +1,15 @@
+// =============================================================================
+// HELIX-INFRA-TEMPLATE: DEFAULT — UNMODIFIED
+// -----------------------------------------------------------------------------
+// This is the opinionated default template. Topology: 1 workspace = 1 team.
+// Deploy once per team (and per environment) by creating a separate azd env,
+// e.g. `azd env new fraud-dev`. Each env => its own resource group + workspace.
+//
+// The Infrastructure Setup agent treats this marker as a signal that the file
+// is unmodified and MUST prompt for every value before deploying. Remove this
+// banner once the parameters have been reviewed and tailored for the team.
+// =============================================================================
+
 targetScope = 'subscription'
 
 // ---------- azd built-in parameters ----------
